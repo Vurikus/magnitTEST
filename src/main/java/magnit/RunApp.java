@@ -1,28 +1,31 @@
 package magnit;
 
+import magnit.molder.XMLmolder;
 import magnit.repository.ConnectionDB;
 import magnit.repository.OperationTestTable;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class RunApp {
     //Field
-    private static Connection connection = ConnectionDB.getConnection();
-    private static int numberN = 30000;
+    private static int numberN = 7;
     private static OperationTestTable operationTestTable = new OperationTestTable();
+    private static XMLmolder molder = new XMLmolder();
+
 
     //Function
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, TransformerException, ParserConfigurationException {
 
-        operationTestTable.deleteFromDB(connection);
-        operationTestTable.insertManyToDB(connection, numberN);
+        operationTestTable.deleteFromDB();
+        operationTestTable.insertManyToDB(numberN);
+        int [] numbers = operationTestTable.selectAllNumbersFromDB(numberN);
+        molder.writeXML(numbers);
 
-        ResultSet resultSet = operationTestTable.selectFromDB(connection);
-        while (resultSet.next()){
-            System.out.println(resultSet.getInt("FIELD"));
-        }
+
 
 
 
