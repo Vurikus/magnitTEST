@@ -1,0 +1,9 @@
+magnit\dao\OperationTable.class
+magnit\fileWorker\FileWorker.class
+magnit\logic\creator\CreatorRecord.class
+magnit\logic\creator\CreatorRecord_1N.class
+magnit\fileWorker\XMLworker.class
+magnit\config\Config.class
+magnit\dao\OperationTableTEST.class
+magnit\dao\ConnectionDB.class
+magnit\RunApp.class

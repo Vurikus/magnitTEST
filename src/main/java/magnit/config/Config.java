@@ -26,4 +26,7 @@ public class Config {
 
     }
 
+    public static void setProperties(Properties properties) {
+        Config.properties = properties;
+    }
 }

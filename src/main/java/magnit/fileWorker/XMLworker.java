@@ -5,11 +5,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.stream.XMLInputFactory;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -22,9 +19,9 @@ import java.util.logging.Logger;
 
 public class XMLworker implements FileWorker {
     //Field
-    private final String PATH_TEMPLATE_XSLT = "File/templateXSLT.xsl";
-    private final String PATH_1xml = "File/1.xml";
-    private final String PATH_2xml = "File/2.xml";
+    private final String PATH_TEMPLATE_XSLT = "src/main/resources/templateXSLT.xsl";
+    private final String PATH_1xml = "src/main/resources/1.xml";
+    private final String PATH_2xml = "src/main/resources/2.xml";
     private final static Logger logger = Logger.getLogger(XMLworker.class.getName());
 
     //Constructor

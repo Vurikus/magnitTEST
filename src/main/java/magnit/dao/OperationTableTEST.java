@@ -2,10 +2,7 @@ package magnit.dao;
 
 import magnit.fileWorker.XMLworker;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -13,7 +10,6 @@ import java.util.logging.Logger;
 public class OperationTableTEST implements OperationTable {
     //Field
     private final String SELECT = "SELECT * FROM TEST;";
-    private final String INSERT = "INSERT INTO TEST (FIELD) VALUES (?);";
     private final String DELETE = "DELETE FROM TEST;";
     private static Connection connection = ConnectionDB.getConnection();
     private final static Logger logger = Logger.getLogger(OperationTableTEST.class.getName());
@@ -21,17 +17,6 @@ public class OperationTableTEST implements OperationTable {
     //Constructor
 
     //Function
-
-    public void insertToDB(List list) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(INSERT);
-        for (int i = 0; i < list.size(); i++){
-            statement.setObject(1, list.get(i));
-            //statement.setInt(1, list.get(i));
-            statement.executeUpdate();
-        }
-        logger.info("SEND RESULT TO DATABASE: " + list.size());
-        statement.close();
-    }
 
     public List selectFromDB() throws SQLException {
         ResultSet resultSet = connection.createStatement().executeQuery(SELECT);
@@ -49,6 +34,16 @@ public class OperationTableTEST implements OperationTable {
         logger.info("TABLE CLEARED");
     }
 
+    public void insertToDB (List list) throws SQLException {
+        Statement statement = connection.createStatement();
+        for (int i = 0; i < list.size(); i++){
+            statement.addBatch("INSERT INTO TEST (FIELD) VALUES ('"+ i + "');");
+
+        }
+        statement.executeBatch();
+        logger.info("SEND RESULT TO DATABASE: " + list.size());
+        statement.close();
+    }
 
     //Getter and Setter
 }
