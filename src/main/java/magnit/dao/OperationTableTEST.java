@@ -11,6 +11,7 @@ public class OperationTableTEST implements OperationTable {
     //Field
     private final String SELECT = "SELECT * FROM TEST;";
     private final String DELETE = "DELETE FROM TEST;";
+    private final String INSERT = "INSERT INTO TEST (FIELD) VALUES (?);";
     private static Connection connection = ConnectionDB.getConnection();
     private final static Logger logger = Logger.getLogger(OperationTableTEST.class.getName());
 
@@ -35,14 +36,24 @@ public class OperationTableTEST implements OperationTable {
     }
 
     public void insertToDB (List list) throws SQLException {
-        Statement statement = connection.createStatement();
-        for (int i = 0; i < list.size(); i++){
-            statement.addBatch("INSERT INTO TEST (FIELD) VALUES ('"+ i + "');");
-
+        //Statement statement = connection.createStatement();
+        connection.setAutoCommit(false);
+        PreparedStatement statement = connection.prepareStatement(INSERT);
+        try {
+            for (int i = 0; i < list.size(); i++) {
+                statement.setInt(1, (Integer) list.get(i));
+                statement.addBatch();
+                //  statement.addBatch("INSERT INTO TEST (FIELD) VALUES ('"+ i + "');");
+            }
+            statement.executeBatch();
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            connection.rollback();
+        }finally {
+            logger.info("SEND RESULT TO DATABASE: " + list.size());
+            statement.close();
         }
-        statement.executeBatch();
-        logger.info("SEND RESULT TO DATABASE: " + list.size());
-        statement.close();
     }
 
     //Getter and Setter
